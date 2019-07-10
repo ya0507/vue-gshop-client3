@@ -66,4 +66,8 @@ export const reqAutoLogin= () => ajax({
   }
 })
 
+// shop中的三个接口
+export const reqGoods = () =>ajax('/goods')
+export const reqRatings = () =>ajax('/ratings')
+export const reqInfo = () =>ajax('/info')
 

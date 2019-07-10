@@ -7,6 +7,9 @@ import Header from './components/Header/Header.vue'
 import Star from './components/Star/Star.vue'
 import { Button } from 'mint-ui';
 
+// 引入mock(没有暴露，所以引入的时候无需用from)
+import './mock/mockServer'
+
 // 注册全局组件
 Vue.component('Header', Header)
 Vue.component('Star', Star)

@@ -19,11 +19,18 @@
 <script type="text/ecmascript-6">
 // 引入需注册的文件
 import ShopHeader from '../../components/ShopHeader/ShopHeader.vue'
+import { reqGoods} from '../../api'
   export default {
+    
     components:{
-
       ShopHeader
 
+    },
+     mounted(){
+    // const result =await  reqGoods()
+    // console.log('result',result);
+    this.$store.dispatch('getShopInfo')
+    
     }
   }
 </script>
