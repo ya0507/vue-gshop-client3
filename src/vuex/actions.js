@@ -13,10 +13,13 @@ import {
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
   RECEIVE_USER,
-  RESET_USER
+  RESET_USER,
+  RECEIVE_TOKEN,
+  RESET_TOKEN
+  
 } from "./mutation-types"
 
-export default {
+export default {  
   
   /* 
   获取当前地址的异步action
@@ -65,22 +68,27 @@ export default {
        /* 1.持久化保存user
           2.在state中保存user */
     recordUser({commit},user){
-      // 将user的token保存到localstorge中
+      // 将user的token保存到localstorge中（为了长久保存）
       localStorage.setItem('token_key',user)
+      // 将token保存在state中
+      commit(RECEIVE_TOKEN,{token:user.token})
+      // 将user保存到state中
+       delete user.token
       // 将user保存到state中
       commit(RECEIVE_USER,{user})
     },
 
-
   // 退出登陆
    logout({commit}){
-    // 重置转态中的user
+    // 重置状态中的user
     commit(RESET_USER)
+    // 重置状态中的token
+    commit(RESET_TOKEN)
     // 清除local中保存的token
-    localStorage.removeItem('tokey_key')
-    // 清除cookie中的user_id
-    Cookies.remove('user_id')
+    localStorage.removeItem('tokey_key')  
    }
+
+  
    
 
 

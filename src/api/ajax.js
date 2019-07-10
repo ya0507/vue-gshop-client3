@@ -9,6 +9,8 @@
 import axios from 'axios'
 // const qs = require('qs')
 import qs from 'qs'
+
+import {Toast} from  'mint-ui'
 import store from '../vuex/store'
 import router from '../router'
 // 请求超时的全局配置
@@ -20,60 +22,85 @@ axios.interceptors.request.use((config) => {
   const {method, data} = config  
   // 如果是携带数据的post请求, 进行处理
   if (method.toLowerCase()==='post' && data && typeof data==='object') {
-    config.data = qs.stringify(data) // {name: 'tom', pwd: '123'} ==> name=tom&pwd=123
+    config.data = qs.stringify(data) // {name: 'tom', pwd: '123'} ==> name=tom&pwd=123    
   }
 
 
 
   /* 如果浏览器有token，就会自动携带上token，token一般请求成功，
   都会存储在localstorage中，所以从中读取touken值 */
-  const token = localStorage.getItem('tokey_id')
+  /* const token = localStorage.getItem('tokey_id')
     if(token){
-      config.headers.Authorization = 'token '+token 
+       config.headers.Authorization = 'token '+token 
+    } */
+  const {needToken} = config.headers
+  if(needToken){
+    // 取出state中的token
+    const token = store.state.token
+    // 如果token有值，添加授权的头，值为token 
+    if(token){
+      config.headers.Authorization = token 
+    }else {
+      // 抛出异常，直接处理错误，处理流程（不发请求）
+      const error = new Error ('没有token，不用发请求')
+      error.status = 401
+      throw error
+
     }
-
-
+  }
   return config;
 });
 
 
 // 添加一个响应拦截器
-axios.interceptors.response.use(response => {
-  // 返回response中的data数据, 这样请求成功的数据就是data了
-  return response.data
-}, error => {// 请求异常
-const status =  error.response.status
-const msg =  error.message
+  axios.interceptors.response.use(response => {
+    // 返回response中的data数据, 这样请求成功的数据就是data了
+    return response.data
+  }, error => {// 请求异常
 
-  if(status===401){//未授权
-    /* 退出登陆 */
-    store.dispatch('logout')
-    //跳转界面
-    router.replace('/login')
-
-    alert('error.response.data.message')
+    // 发请求前的异常
+    if (!error.response) {
+      if (error.status===401) { // 发需要授权的请求前发现没有token(没有登陆)
+        // 如果当前没在登陆界面
+        if (router.currentRoute.path!=='/login') {
+          router.replace('/login')
+          Toast(error.message)
+        } else {
+          console.log('没有token, 请求前取消的请求, 已在login, 不需要跳转')
+        }
+      }
+    // 发请求后的异常
+    } else {
+      const status = error.response.status
+      const msg = error.message
+      if (status === 401) { // 授权过期
+        if (router.currentRoute.path !== '/login') {
+          // 退出登陆
+          store.dispatch('logout')
+          router.replace('/login')
+          Toast(error.response.data.message)
+        } else {
+          console.log('token过期的请求, 已在login')
+        }
+        
+      } else if (status === 404) {
+        Toast('请求的资源不存在')
+      } else {
+        Toast('请求异常: ' + msg)
+      }
+    }
     
-  }else if(status===404){
-
-    alert('请求的资源不存在')
-
-  }else{
-
-    alert('请求异常: ' + msg)
-  }
-
-
-
+ 
   
+    // return error
+    // return Promise.reject(error)
+    return new Promise(() => {})  // 中断promise链
+  })
 
-  // return error
-  // return Promise.reject(error)
-  return new Promise(() => {})  // 中断promise链
-})
 
 export default axios
 
-
+// 测试代码
 /* axios.get('/api/test_get',  {
   params: {name: '张三', pwd: '456'}
 }) */

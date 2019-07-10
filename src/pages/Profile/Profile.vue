@@ -89,11 +89,35 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px">
+        <mt-button type="danger" style="width:100%" @click="logout">退出登陆</mt-button>
+    </section>
   </section>
 </template>
 
 <script type="text/ecmascript-6">
+import {mapState} from 'vuex'
+ import { Toast ,MessageBox } from 'mint-ui'
   export default {
+
+   computed:{
+     ...mapState(['user']) //需要读取用户信息，用于保存数据
+
+   },
+
+    methods:{
+      logout(){
+        /* Toast('提示信息'); */
+        // MessageBox('提示', '操作成功')
+        MessageBox.confirm('确定执行此操作?').then(action => {
+          this.$store.dispatch('logout')
+        },action =>{
+          alert('点击取消吗')
+        });
+
+
+      }
+    }
   }
 </script>
 

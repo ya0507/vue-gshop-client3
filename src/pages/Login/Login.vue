@@ -128,14 +128,15 @@
             // 短信登陆
             result =  await reqSmsLogin(phone,code)
           }
-          // 根据结果进行相应处理
+          // 根据结果进行响应 处理
           console.log('result',result);
           // 如果登陆成功，就要对用户的信息进行保存
           if(result.code===0){
             //将用户信息存储到state中
-              this.$store.dispath('recordUser',{user})
+            const user = result.data
+            this.$store.dispatch('recordUser',{user})
             // 直接跳转到个人中心
-             this.$router.replace('prifile')
+             this.$router.replace('/profile')
           }else{ //登陆失败的话，对用户信息提示
             alert(result.msg)
           }
@@ -146,98 +147,9 @@
       
     }
 
-
-
-
-
   }
 
-  // export default {
-  //   data () {
-  //     return {
-  //       loginType: false, // true: 短信登陆, false: 密码登陆
-  //       phone: '', // 手机号
-  //       code: '', // 短信验证码
-  //       name: '', // 用户名
-  //       pwd: '', // 密码
-  //       captcha: '', // 图形验证码
-
-  //       computeTime: 0, // 计时剩余的时间, 为0时没有计时了
-  //       isShowPwd: false, // 是否显示密码, 默认不显示
-  //     }
-  //   },
-
-  //   computed: {
-  //     /* 
-  //     是否是正确手机号
-  //     */
-  //     isRightPhone () {
-  //       return /^1\d{10}$/.test(this.phone)
-  //     }
-  //   },
-
-  //   methods: {
-  //     /* 
-  //     发送验证
-  //     */
-  //     async sendCode () {
-  //       // alert('----')
-  //       // 设置最大时间
-  //       this.computeTime = 10
-  //       // 启动循环定时器进行计时
-  //       const intervalId = setInterval(() => {
-  //         this.computeTime--
-  //         // 一旦到了0, 清除定时器
-  //         if (this.computeTime===0) {
-  //           clearInterval(intervalId)
-  //         }
-  //       }, 1000)
-
-  //       // 发送ajax请求: 发送短信验证码
-  //       const result = await reqSendCode(this.phone)
-  //       if (result.code===0) {
-  //         alert('短信已成功发送')
-  //       } else {
-  //         alert(result.msg)
-  //       }
-  //     },
-
-  //     /* 
-  //     更新图形验证码显示
-  //     */
-  //     updateCapcha () {
-  //       // 给img指定一个新的src值, 携带一个时间戳的参数
-  //       this.$refs.captcha.src = 'http://localhost:5000/captcha?time=' + Date.now()
-  //     },
-
-  //    /* /* 
-  //    登陆
-  //    */
-  //     // async login () {
-  //     //   let result
-  //     //   const { loginType, phone, code, name, pwd, captcha } = this
-  //     //   // 发密码登陆的请求
-  //     //   if (!loginType) {
-  //     //     result = await reqPwdLogin({ name, pwd, captcha })
-  //     //   // 发短信登陆的请求
-  //     //   } else {
-  //     //     result = await reqSmsLogin(phone, code)
-  //     //   }
-
-  //     //   // 根据结果进行响应处理
-  //     //   console.log('result', result)
-  //     //   if (result.code===0) {
-  //     //     // 将user信息保存到state中
-  //     //     const user = result.data
-  //     //     this.$store.dispatch('recordUser', user)
-  //     //     // 跳转到个人中心
-  //     //     this.$router.replace('/profile')
-  //     //   } else { // 登陆失败
-  //     //     alert(result.msg)
-  //     //   }
-  //     // } 
-  //   }
-  // }
+  
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
