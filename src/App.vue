@@ -18,6 +18,9 @@
     async mounted () {
       // 分发actoin, 从后台获取数据到state中
       this.$store.dispatch('getAddress')
+      
+      this.$store.dispatch('autoLogin')   //自动登陆 
+      
     },
 
     components: {

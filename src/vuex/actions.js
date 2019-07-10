@@ -5,7 +5,8 @@ import Cookies  from 'js-cookie'
 import {
   reqAddress,
   reqCategorys,
-  reqShops
+  reqShops,
+  reqAutoLogin
 } from '../api'
 
 import { 
@@ -15,7 +16,7 @@ import {
   RECEIVE_USER,
   RESET_USER,
   RECEIVE_TOKEN,
-  RESET_TOKEN
+  RESET_TOKEN,
   
 } from "./mutation-types"
 
@@ -86,7 +87,24 @@ export default {
     commit(RESET_TOKEN)
     // 清除local中保存的token
     localStorage.removeItem('tokey_key')  
-   }
+   },
+
+
+   /* 自动登录 */
+  async autoLogin({commit,state}){
+    // 取出token（token保存在state中）
+    const token =state.token
+    if(token){
+      const result = await  reqAutoLogin()
+      if(result.code===0){
+       const user  = result.data
+        commit(RECEIVE_USER,{user})
+      }
+    }
+ 
+  }
+
+  
 
   
    

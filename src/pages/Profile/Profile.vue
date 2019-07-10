@@ -11,11 +11,13 @@
           <p class="user-info-top">
             {{user.name ? user.name: '登陆/注册'}}
           </p>
-          <p>
+          <p v-show="!user.name">
             <span class="user-icon">
               <i class="iconfont icon-shouji icon-mobile"></i>
             </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+            <span class="icon-mobile-number">
+              {{user.phone ? user.phone :'暂无绑定手机号'}}
+              </span>
           </p>
         </div>
         <span class="arrow">
@@ -103,7 +105,7 @@ import {mapState} from 'vuex'
   export default {
 
    computed:{
-     ...mapState(['user']) //需要读取用户信息，用于保存数据
+     ...mapState(['user']) //需要读取用户信息
 
    },
 

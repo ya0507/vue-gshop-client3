@@ -46,6 +46,7 @@ export const reqPwdLogin= ({name,pwd,captcha}) => ajax({
     captcha
   }
 })
+
 //短信/手机号登陆
 export const reqSmsLogin= (phone,code) => ajax({
   method: 'POST',
@@ -56,3 +57,13 @@ export const reqSmsLogin= (phone,code) => ajax({
     
   }
 })
+
+/* 实现自动登陆 */
+export const reqAutoLogin= () => ajax({
+  url: BASE + '/auto_login',
+  headers:{
+    needToken:true
+  }
+})
+
+

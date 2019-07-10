@@ -41,7 +41,7 @@
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
                 <img class="get_verification" src="http://localhost:5000/captcha" alt="captcha"
-                  @click="updateCapcha" ref='captcha'>
+                  @click="updateCaptcha" ref='captcha'>
               </section>
             </section>
           </div>
@@ -91,7 +91,7 @@
     methods: {
      async sendCode(){//发送验证码
       //设置最大时间
-      this.computeTime =10
+      this.computeTime = 10
       const timeid = setInterval(() => {
          this.computeTime--
          //判断计时器，如果到0的话，就清除计时器
@@ -112,9 +112,9 @@
       },
 
       /* 更新图形码显示 */
-      updateCapcha(){
+      updateCaptcha(){
         //给img指定一个新的src值, 携带一个时间戳的参数
-        this.$refs.captcha.src='http://localhost:5000/captcha?time=' +Date.now()
+        this.$refs.captcha.src='http://localhost:5000/captcha?time=' + Date.now()
       },
 
       /* 发送登陆的请求(需要确定的是密码登陆还是短信登陆) */
@@ -140,12 +140,9 @@
              this.$router.replace('/profile')
           }else{ //登陆失败的话，对用户信息提示
             alert(result.msg)
-          }
-      
+          }  
           
-        }
-
-      
+        }      
     }
 
   }
