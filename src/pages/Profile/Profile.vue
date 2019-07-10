@@ -2,13 +2,15 @@
   <section class="profile">
     <Header title="我 的"/>
     
-    <section class="profile-number" @click="$router.push('/login')">
+    <section class="profile-number" @click="$router.push(user.id ? '/userinfo':'/login')">
       <a href="javascript:" class="profile-link">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
-        <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
+        <div class="user-info" v-show="!user.phone">
+          <p class="user-info-top">
+            {{user.name ? user.name: '登陆/注册'}}
+          </p>
           <p>
             <span class="user-icon">
               <i class="iconfont icon-shouji icon-mobile"></i>
@@ -89,7 +91,7 @@
         </div>
       </a>
     </section>
-    <section class="profile_my_order border-1px">
+    <section class="profile_my_order border-1px" v-if="user._id">
         <mt-button type="danger" style="width:100%" @click="logout">退出登陆</mt-button>
     </section>
   </section>

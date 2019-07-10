@@ -67,9 +67,9 @@ export default {
   // 用于保存用户信息
        /* 1.持久化保存user
           2.在state中保存user */
-    recordUser({commit},user){
+    recordUser({commit},{user}){
       // 将user的token保存到localstorge中（为了长久保存）
-      localStorage.setItem('token_key',user)
+      localStorage.setItem('token_key',user.token)
       // 将token保存在state中
       commit(RECEIVE_TOKEN,{token:user.token})
       // 将user保存到state中

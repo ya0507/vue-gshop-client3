@@ -24,7 +24,7 @@ export default {
     state.shops = shops
   },
 
-  [RECEIVE_USER](state, user) { 
+  [RECEIVE_USER](state, {user}) { 
     state.user = user
   },
   [RESET_USER](state) {

@@ -114,7 +114,7 @@
       /* 更新图形码显示 */
       updateCapcha(){
         //给img指定一个新的src值, 携带一个时间戳的参数
-        this.$refs.captcha.src='http://localhost:5000/captcha?time=' +Data.now()
+        this.$refs.captcha.src='http://localhost:5000/captcha?time=' +Date.now()
       },
 
       /* 发送登陆的请求(需要确定的是密码登陆还是短信登陆) */
@@ -134,6 +134,7 @@
           if(result.code===0){
             //将用户信息存储到state中
             const user = result.data
+            console.log(user)
             this.$store.dispatch('recordUser',{user})
             // 直接跳转到个人中心
              this.$router.replace('/profile')

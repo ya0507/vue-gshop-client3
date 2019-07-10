@@ -10,5 +10,5 @@ export default {
   shops: [], //商家数组
   user:{},//用户保存登陆用户信息的对象
 
-  token:localStorage.getItem('token_id')
+  token:localStorage.getItem('token_key')
 }
