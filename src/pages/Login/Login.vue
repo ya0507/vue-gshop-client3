@@ -134,8 +134,8 @@
           if(result.code===0){
             //将用户信息存储到state中
             const user = result.data
-            console.log(user)
-            this.$store.dispatch('recordUser',{user})
+            // console.log(user)
+            this.$store.dispatch('recordUser',user)
             // 直接跳转到个人中心
              this.$router.replace('/profile')
           }else{ //登陆失败的话，对用户信息提示

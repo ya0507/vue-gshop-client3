@@ -105,7 +105,10 @@ import {mapState} from 'vuex'
   export default {
 
    computed:{
-     ...mapState(['user']) //需要读取用户信息
+    //  ...mapState(['user']) //需要读取用户信息
+     ...mapState({
+       user : state =>state.user.user
+     }) 
 
    },
 
